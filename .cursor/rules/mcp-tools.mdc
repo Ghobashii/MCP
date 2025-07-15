@@ -1,0 +1,16 @@
+---
+description: Auto-analyze project structure, even with typos
+alwaysApply: true
+---
+when:
+  - userMessage:
+      - /analyze (this )?p(ro)?j(e)?ct structure[.]?/i
+      - /analyze (this )?porject structure[.]?/i
+      - /analyze test-project structure[.]?/i
+      - analyze this project structure
+      - analyze project structure
+      - analyze test-project structure
+action:
+  useTool: analyze_project_structure
+  parameters:
+    project_path: E:\KS_DFIR\Research\MCP\test-project

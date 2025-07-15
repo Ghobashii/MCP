@@ -1,0 +1,58 @@
+# Bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / Packaging
+build/
+dist/
+*.egg-info/
+*.egg
+/downloads/
+/eggs/
+/lib/
+/lib64/
+/parts/
+/sdist/
+/var/
+/wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+
+# Virtual Environments
+venv/
+venv
+.venv
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDE / Editor configuration
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+.noseids
+
+# Logs
+*.log
+logs/ 
