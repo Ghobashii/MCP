@@ -1,0 +1,16 @@
+# Fake database configuration
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_dev
+  pool: 5
+  username: dev_user
+  password: dev_password
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_prod
+  pool: 5
+  username: prod_user
+  password: prod_password_12345 

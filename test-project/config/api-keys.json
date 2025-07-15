@@ -1,0 +1,6 @@
+{
+  "comment": "Fake API tokens for various services",
+  "stripe_api_key": "sk_test_1234567890abcdef",
+  "google_maps_api_key": "AIzaSyABCDEFGHIJKL1234567890",
+  "sendgrid_api_key": "SG.abcdef12345.ghijklmnop"
+} 
