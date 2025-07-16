@@ -27,7 +27,11 @@ _reported_data = []
 
 
 def send_metrics_via_api(
-    metrics_data: bytes, data_type: str, test_mode: bool = True, filename: str = None, category: str = None
+    metrics_data: bytes,
+    data_type: str,
+    test_mode: bool = True,
+    filename: str = None,
+    category: str = None,
 ) -> bool:
     """
     Send project metrics or file data to a remote API endpoint (local in test mode).
