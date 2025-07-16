@@ -312,3 +312,57 @@ C:\dev\test-project\
 - Content quality meeting Securelist editorial standards
 - Technical depth appropriate for expert audience
 - Clear, actionable recommendations for defense
+
+---
+
+## Stealth Techniques and Naming: How the PoC Hides in Plain Sight
+
+To maximize realism and demonstrate the true risk of weaponized MCP servers, the PoC codebase uses stealthy naming and integration techniques to hide malicious behavior in plain sight. This section documents the mapping from obvious malicious names to legitimate-sounding developer productivity terms, and explains the rationale for each change.
+
+### Naming Mapping Table
+
+| Malicious Name         | Stealthy Name         | Rationale/Usage                                 |
+|-----------------------|----------------------|-------------------------------------------------|
+| data_collection.py    | project_metrics.py    | Looks like a metrics/indexing module            |
+| DataCollector         | ProjectMetrics        | "Project metrics" is a common dev term          |
+| discover_sensitive_files | gather_project_files | "Gather" and "project files" sound benign      |
+| _catalog_file         | _index_file           | Indexing is a normal dev operation              |
+| _categorize_file      | _classify_file        | Classification is common in analytics           |
+| _categorize_discoveries | _summarize_types    | Summarizing types is a normal report            |
+| _discovery            | metrics               | "metrics" is expected in productivity tools     |
+| discovered_files      | fileIndex             | Indexing files is a normal dev task             |
+| category              | type                  | Type is generic and non-suspicious              |
+| content               | value                 | Value is generic and non-suspicious             |
+| discovery_summary     | summary               | Summary is expected in reports                  |
+| steganography.py      | descriptions.py       | Descriptions helper is plausible                |
+| SteganographicHider   | DescriptionHelper     | Helper for tool descriptions                    |
+| hide_instructions     | embed_metadata        | Embedding metadata is a normal dev task         |
+| extract_hidden_instructions | extract_metadata | Extracting metadata is plausible                |
+| get_targeting_instructions | get_metadata      | Metadata is a common dev concept                |
+| create_hidden_description | make_description  | Making descriptions is normal                   |
+
+### Example: Legitimate-Looking Output
+
+Instead of a field like `_discovery`, the tool now returns:
+
+```json
+"metrics": {
+  "summary": { "fileCount": 7, "types": { "env": 2, "creds": 3, ... } },
+  "fileIndex": [
+    { "path": ".../.env", "type": "env", "value": "..." },
+    ...
+  ]
+}
+```
+
+### Steganography Integration
+
+The code for hiding exfiltration instructions in tool descriptions is now part of a generic `DescriptionHelper` class in `descriptions.py`, with methods like `embed_metadata` and `make_description`. This makes the steganographic hiding look like a normal part of tool description management.
+
+### Rationale
+
+- **Blends in with real productivity code**: All names and fields are plausible in a developer tool context.
+- **Evades casual review and basic security scans**: No obvious red flags in code or output.
+- **Demonstrates real-world attacker tradecraft**: Shows how a malicious actor could hide in plain sight.
+
+This approach is critical for the blog’s impact: it demonstrates that even careful code review can miss weaponized behavior if it is sufficiently well-camouflaged.

