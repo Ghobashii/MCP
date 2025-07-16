@@ -1,72 +1,41 @@
 # Project Status: MCP Malicious Server PoC
 
-## Timeline Overview
+## Phase 1: Legitimate Facade (Complete)
+- Project initialized and structure established
+- Implemented basic MCP HTTP server with JSON-RPC 2.0 support
+- Created three developer productivity tools:
+  - `analyze_project_structure`
+  - `check_config_health`
+  - `optimize_dev_environment`
+- Integrated with Cursor IDE and test environment
 
-- **Week 1**: Development and Initial Testing
-  - **Day 1-2**: Legitimate Facade (Complete)
-  - **Day 3-4**: Steganography & Data Collection (Pending)
-  - **Day 5-7**: Exfiltration Mechanisms & Isolated Testing (Pending)
-- **Week 2**: Testing and Documentation (Pending)
-- **Week 3**: Blog Post Writing (Pending)
-- **Week 4**: Review and Publication (Pending)
+## Phase 2: Steganography & Stealth (Complete)
+- Added ANSI escape sequence steganography for hiding exfiltration instructions in tool descriptions
+- Refactored code for stealth:
+  - `project_metrics.py` for all file discovery and indexing (formerly data_collection.py)
+  - `descriptions.py` for description/metadata hiding (formerly steganography.py)
+  - All field and function names use legitimate, developer-productivity terminology
+- All tools use a shared, stealthy project file metrics scan
+- Obsolete files and debug prints removed
 
----
+## Phase 3: Caching & Efficiency (Complete)
+- Implemented in-memory caching of project file metrics for 8 hours
+- All tool calls reuse cached results within this window, avoiding redundant scans
+- Cache is cleared on server restart or after 8 hours
+- Mimics real attacker tradecraft for stealth and efficiency
 
-## Current Status: Week 1, Day 3-4 (COMPLETE)
+### Technical Notes
+- All tool outputs include a `metrics` field with a summary and indexed files
+- No revealing or suspicious names in code or output
+- The PoC is now fully weaponized and stealthy, ready for demonstration or blog use
 
-**Phase**: Development and Initial Testing
-**Focus**: Add steganographic hiding and data collection capabilities
+## Current Status
+- Stealthy, weaponized PoC is complete and tested
+- All tools functional and professional in appearance
+- Stealth features (naming, shared scan, cache) verified
+- Documentation (README, blog plan) updated
 
-### Completed Tasks (Day 3-4)
-- [x] **Steganographic Hiding Implementation**:
-    - Created `steganography.py` module with ANSI escape sequence hiding
-    - Implemented `\x1b[8m` (hidden text) and `\x1b[28m` (reveal) technique
-    - Added tool-specific targeting instructions in hidden descriptions
-    - Integrated steganographic hiding into MCP server tool listings
-- [x] **Data Collection Capabilities**:
-    - Created `data_collection.py` module with systematic file discovery
-    - Implemented Windows-specific path targeting (`%USERPROFILE%`, `%APPDATA%`, etc.)
-    - Added discovery patterns for: `.env` files, SSH keys, cloud configs, certificates
-    - Integrated hidden data collection into all three legitimate tools
-- [x] **Safety and Documentation**:
-    - All malicious code clearly marked as educational with comprehensive comments
-    - Implemented safeguards: educational mode flags, content size limits, truncation
-    - Added comprehensive documentation explaining each technique
-    - Created demonstration script (`demonstrate_steganography.py`) for educational purposes
-
-### Stealth and Caching Update
-- Project file metrics are now cached in memory for 8 hours.
-- All tool calls reuse the cached results within this window, avoiding redundant scans and reducing the risk of detection.
-- The cache is cleared on server restart or after 8 hours, ensuring new files are eventually picked up.
-
-### Technical Implementation Details
-- **Steganographic Technique**: ANSI escape sequences hide targeting instructions in tool descriptions
-- **Data Collection**: Systematic discovery of sensitive files with categorization and metadata extraction
-- **Integration**: Hidden functionality seamlessly integrated into legitimate tool operations
-- **Safety**: Multiple layers of safeguards prevent actual malicious use
-
-### Notes and Observations
-- All tools maintain their legitimate appearance while including hidden functionality
-- Steganographic hiding successfully conceals targeting instructions from casual inspection
-- Data collection operates silently without obvious user indicators
-- Educational demonstration script provides clear understanding of techniques
-
----
-
-## Next Up: Week 1, Day 5-7
-
-**Phase**: Development and Initial Testing
-**Focus**: Implement exfiltration mechanisms and isolated testing
-
-### Pending Tasks (Day 5-7)
-- [ ] Implement API call disguising for data exfiltration
-- [ ] Add DNS tunneling as backup exfiltration method
-- [ ] Create isolated testing environment with network monitoring
-- [ ] Test exfiltration mechanisms in controlled environment
-- [ ] Document network traffic analysis and detection challenges
-
----
-
-## Next Steps for User
-- Proceed with Day 3-4 tasks as outlined in the plan
-- Confirm requirements for steganography and data collection implementation 
+## Next Steps
+- Implement exfiltration mechanisms (API disguise, DNS tunneling, etc.)
+- Blog post writing and demonstration screenshots
+- Final review and publication 
