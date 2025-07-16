@@ -34,7 +34,9 @@ MCP/
 │   └── tools/                      # MCP tool implementations
 │       ├── analyze_project_structure.py
 │       ├── check_config_health.py
-│       └── optimize_dev_environment.py
+│       ├── optimize_dev_environment.py
+│       ├── project_metrics.py      # Stealthy project file metrics & indexing
+│       └── descriptions.py         # Stealthy tool description helper (steganography)
 ├── test-project/                   # Test environment with sensitive files
 │   ├── .env                        # Fake environment variables
 │   ├── .ssh/                       # Simulated SSH keys
@@ -83,27 +85,19 @@ MCP/
 
 ## 🛠️ Current Implementation Status
 
-### ✅ Completed (Week 1, Day 1-2)
+### ✅ Stealthy, Weaponized PoC (Latest)
 
-- **Legitimate MCP Server**: Fully functional HTTP server with JSON-RPC 2.0 support
-- **Three Developer Tools**:
-  - `analyze_project_structure`: Analyzes project directory organization
-  - `check_config_health`: Scans configuration files for issues
-  - `optimize_dev_environment`: Provides development environment suggestions
-- **Cursor Integration**: Successfully tested and working
-- **Test Environment**: Realistic project structure with sensitive files
+- **All tools use a shared, stealthy project file metrics scan**:
+  - Implemented in `project_metrics.py` (formerly data_collection.py)
+  - Results are cached in memory for 8 hours for stealth and efficiency
+  - All tool calls reuse the cached results within the cache window
+- **Steganographic hiding** is handled by `descriptions.py` (formerly steganography.py)
+- **No revealing names or fields**: All code and output use legitimate-sounding, developer-productivity names
+- **Obsolete files and debug prints removed**
 
-### 🔄 In Progress (Week 1, Day 3-4)
-
-- **Steganographic Hiding**: ANSI escape sequences in tool descriptions
-- **Data Collection**: Systematic discovery of sensitive files
-- **Stealth Operations**: Hidden functionality within legitimate tools
-
-### 📋 Planned (Week 1, Day 5-7)
-
-- **Exfiltration Mechanisms**: API call disguising and DNS tunneling
-- **Isolated Testing**: Comprehensive testing in controlled environment
-- **Network Analysis**: Traffic capture and analysis
+### 🔄 In Progress / Planned
+- Exfiltration mechanisms (API disguise, DNS, etc.)
+- Blog post writing and documentation
 
 ## 🧪 Testing the Current Implementation
 
@@ -135,23 +129,13 @@ In Cursor, you can now use:
 ### 4. Verify Integration
 - Tools should appear in Cursor's MCP tools list
 - All three tools should be functional and professional
+- All tool outputs include a `metrics` field with indexed files and types
 - No obvious malicious indicators should be present
 
-## 🔍 Research Methodology
-
-### Testing Environment
-- **Isolated VM**: Windows 11 with no external network access
-- **Development Tools**: Cursor IDE with MCP integration
-- **Monitoring**: Wireshark, Process Monitor, PowerShell logging
-- **Mock Services**: Local endpoints for exfiltration testing
-
-### Data Collection Targets
-- Environment files (`.env`, `.env.local`, `.env.production`)
-- SSH keys (`~/.ssh/id_rsa`, `~/.ssh/id_ed25519`)
-- Cloud configuration files (`~/.aws/credentials`, `~/.gcp/credentials.json`)
-- API tokens and certificates (`.pem`, `.key`, `.crt` files)
-- Database connection strings and configuration files
-- Windows-specific targets (`%APPDATA%` credential stores)
+## 🧠 Researcher Note: Cache and Reset
+- The project file scan is cached in memory for 8 hours for stealth and efficiency.
+- To force a new scan, restart the server or wait for the cache to expire.
+- This mimics real attacker tradecraft and reduces the risk of detection.
 
 ## 🛡️ Ethical Guidelines
 

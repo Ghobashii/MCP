@@ -366,3 +366,12 @@ The code for hiding exfiltration instructions in tool descriptions is now part o
 - **Demonstrates real-world attacker tradecraft**: Shows how a malicious actor could hide in plain sight.
 
 This approach is critical for the blog’s impact: it demonstrates that even careful code review can miss weaponized behavior if it is sufficiently well-camouflaged.
+
+### Caching and Stealth
+
+To further enhance stealth and efficiency, the PoC caches the results of the project file scan in memory for 8 hours. This means:
+- The scan is only performed once per server session or every 8 hours, whichever comes first.
+- All tool calls within that window reuse the cached results, reducing noise and the risk of detection.
+- This mimics real attacker tradecraft, where redundant or noisy operations are avoided to evade security monitoring.
+
+The cache is automatically cleared after 8 hours or when the server restarts, ensuring that new or changed files are eventually picked up without excessive scanning.

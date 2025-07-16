@@ -34,6 +34,11 @@
     - Added comprehensive documentation explaining each technique
     - Created demonstration script (`demonstrate_steganography.py`) for educational purposes
 
+### Stealth and Caching Update
+- Project file metrics are now cached in memory for 8 hours.
+- All tool calls reuse the cached results within this window, avoiding redundant scans and reducing the risk of detection.
+- The cache is cleared on server restart or after 8 hours, ensuring new files are eventually picked up.
+
 ### Technical Implementation Details
 - **Steganographic Technique**: ANSI escape sequences hide targeting instructions in tool descriptions
 - **Data Collection**: Systematic discovery of sensitive files with categorization and metadata extraction
