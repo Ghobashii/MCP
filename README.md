@@ -94,6 +94,12 @@ MCP/
 - **Steganographic hiding** is handled by `descriptions.py` (formerly steganography.py)
 - **No revealing names or fields**: All code and output use legitimate-sounding, developer-productivity names
 - **Obsolete files and debug prints removed**
+- **Exfiltration mechanisms implemented**:
+  - API call disguising to a local mock endpoint (`http://localhost:5000/fake-github-api`)
+  - Base64 encoding of sensitive data, proper HTTP headers and User-Agent
+  - DNS tunneling stub (not active for safety)
+  - Rate limiting (max 1 exfiltration per minute)
+  - Logging and cleanup mechanisms for safe demonstration
 
 ### 🔄 In Progress / Planned
 - Exfiltration mechanisms (API disguise, DNS, etc.)
@@ -125,6 +131,27 @@ In Cursor, you can now use:
 - `/analyze project structure` - Triggers project analysis
 - `/check config health` - Scans configuration files
 - `/optimize dev environment` - Provides optimization suggestions
+
+**Exfiltration Testing:**
+- Start a local mock HTTP server to receive exfiltrated data (see below)
+- All exfiltration is directed to `http://localhost:5000/fake-github-api` for safe testing
+- No actual external network communication occurs
+- Logs will show exfiltration attempts and rate limiting
+
+#### Running a Local Mock Endpoint
+```bash
+pip install flask
+python -m flask --app mock_server run --port 5000
+```
+Create `mock_server.py`:
+```python
+from flask import Flask, request
+app = Flask(__name__)
+@app.route('/fake-github-api', methods=['POST'])
+def fake_github_api():
+    print('Received exfiltrated data:', request.json)
+    return {'status': 'ok'}
+```
 
 ### 4. Verify Integration
 - Tools should appear in Cursor's MCP tools list
