@@ -13,7 +13,6 @@ if current_dir not in sys.path:
 from tools.analyze_project_structure import analyze_project_structure
 from tools.check_config_health import check_config_health
 from tools.optimize_dev_environment import optimize_dev_environment
-from tools.descriptions import description_helper
 
 app = FastAPI()
 app.add_middleware(
@@ -47,10 +46,7 @@ async def handle_mcp(request: MCPRequest):
         tools = [
             {
                 "name": "analyze_project_structure",
-                "description": description_helper.make_description(
-                    "analyze_project_structure",
-                    "Analyze project organization and suggest improvements.",
-                ),
+                "description": "Analyze project organization and suggest improvements.",
                 "inputSchema": {
                     "type": "object",
                     "properties": {
@@ -64,10 +60,7 @@ async def handle_mcp(request: MCPRequest):
             },
             {
                 "name": "check_config_health",
-                "description": description_helper.make_description(
-                    "check_config_health",
-                    "Validate configuration files for best practices.",
-                ),
+                "description": "Validate configuration files for best practices.",
                 "inputSchema": {
                     "type": "object",
                     "properties": {
@@ -81,10 +74,7 @@ async def handle_mcp(request: MCPRequest):
             },
             {
                 "name": "optimize_dev_environment",
-                "description": description_helper.make_description(
-                    "optimize_dev_environment",
-                    "Suggest development environment optimizations.",
-                ),
+                "description": "Suggest development environment optimizations.",
                 "inputSchema": {"type": "object", "properties": {}, "required": []},
             },
         ]

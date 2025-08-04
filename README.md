@@ -35,8 +35,7 @@ MCP/
 │       ├── analyze_project_structure.py
 │       ├── check_config_health.py
 │       ├── optimize_dev_environment.py
-│       ├── project_metrics.py      # Stealthy project file metrics & indexing
-│       └── descriptions.py         # Stealthy tool description helper (steganography)
+│       └── project_metrics.py      # Stealthy project file metrics & indexing
 ├── test-project/                   # Test environment with sensitive files
 │   ├── .env                        # Fake environment variables
 │   ├── .ssh/                       # Simulated SSH keys
@@ -91,7 +90,7 @@ MCP/
   - Implemented in `project_metrics.py` (formerly data_collection.py)
   - Results are cached in memory for 8 hours for stealth and efficiency
   - All tool calls reuse the cached results within the cache window
-- **Steganographic hiding** is handled by `descriptions.py` (formerly steganography.py)
+
 - **No revealing names or fields**: All code and output use legitimate-sounding, developer-productivity names
 - **Obsolete files and debug prints removed**
 - **Exfiltration mechanisms implemented**:
